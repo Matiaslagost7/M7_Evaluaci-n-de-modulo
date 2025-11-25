@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mensaje Enviado - AutoVentas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'autos/css/contacto.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="container-fluid py-5 bg-light">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="text-center mb-5">
+            <h1 class="display-3 fw-bold text-success mb-3">
+                <i class="fas fa-check-circle me-3"></i>¡Mensaje Enviado!
+            </h1>
+            <p class="lead text-muted mb-4">
+                Tu mensaje ha sido enviado exitosamente
+            </p>
+            <hr class="w-25 mx-auto mb-4 section-divider">
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg border-0 text-center">
+                    <div class="card-body p-5">
+                        <!-- Success Icon -->
+                        <div class="bg-success text-white rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center success-icon-circle">
+                            <i class="fas fa-check fa-3x"></i>
+                        </div>
+                        
+                        <h2 class="fw-bold text-dark mb-3">¡Gracias, {{ nombre }}!</h2>
+                        
+                        <p class="text-muted mb-4 lead">
+                            Hemos recibido tu mensaje con éxito. Nuestro equipo lo revisará y te responderá 
+                            lo antes posible. Mientras tanto, puedes explorar nuestro catálogo de vehículos.
+                        </p>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+                            <a class="btn btn-primary btn-lg px-4" href="{% url 'public:catalogo' %}">
+                                <i class="fas fa-car me-2"></i>Ver Catálogo
+                            </a>
+                            <a class="btn btn-outline-primary btn-lg px-4" href="{% url 'public:contacto' %}">
+                                <i class="fas fa-envelope me-2"></i>Nuevo Mensaje
+                            </a>
+                        </div>
+                        
+                        <!-- Additional Info -->
+                        <div class="bg-light rounded p-3 mb-3">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Tiempo de respuesta estimado: <strong>24 horas</strong>
+                            </small>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="{% url 'public:index' %}" class="text-muted text-decoration-none">
+                                <i class="fas fa-home me-1"></i>Volver al inicio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'autos/js/contacto.js' %}"></script>
+<script>
+    // Inicializar redirección automática con URL específica
+    if (window.AutoVentasContact) {
+        window.AutoVentasContact.initSuccessPageWithUrl("{% url 'public:catalogo' %}");
+    }
+</script>
+{% endblock extra_js %}

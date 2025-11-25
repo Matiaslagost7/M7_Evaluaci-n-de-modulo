@@ -39,10 +39,10 @@
                         
                         <!-- Action Buttons -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
-                            <a class="btn btn-primary btn-lg px-4" href="{% url 'public:catalogo' %}">
+                            <a class="btn btn-primary btn-lg px-4" href="{% url 'catalogo' %}">
                                 <i class="fas fa-car me-2"></i>Ver Catálogo
                             </a>
-                            <a class="btn btn-outline-primary btn-lg px-4" href="{% url 'public:contacto' %}">
+                            <a class="btn btn-outline-primary btn-lg px-4" href="{% url 'contacto' %}">
                                 <i class="fas fa-envelope me-2"></i>Nuevo Mensaje
                             </a>
                         </div>
@@ -56,7 +56,7 @@
                         </div>
                         
                         <div class="mt-4">
-                            <a href="{% url 'public:index' %}" class="text-muted text-decoration-none">
+                            <a href="{% url 'index' %}" class="text-muted text-decoration-none">
                                 <i class="fas fa-home me-1"></i>Volver al inicio
                             </a>
                         </div>
@@ -73,7 +73,7 @@
 <script>
     // Inicializar redirección automática con URL específica
     if (window.AutoVentasContact) {
-        window.AutoVentasContact.initSuccessPageWithUrl("{% url 'public:catalogo' %}");
+        window.AutoVentasContact.initSuccessPageWithUrl("{% url 'catalogo' %}");
     }
 </script>
 {% endblock extra_js %}

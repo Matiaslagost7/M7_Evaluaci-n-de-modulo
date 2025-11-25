@@ -1,61 +1,140 @@
 from django import forms
-from .models import Automovil
+from .models import Vehiculo, DetalleVehiculo
 
-class ContactoForm(forms.Form):
-    nombre = forms.CharField(
-        max_length=100,
-        label='Nombre Completo',
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Escribe tu nombre completo',
-            'required': True,
-            'aria-label': 'Nombre completo'
-        })
-    )
-    correo = forms.EmailField(
-        label='Correo Electrónico',
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'ejemplo@correo.com',
-            'required': True,
-            'aria-label': 'Correo electrónico'
-        })
-    )
-    mensaje = forms.CharField(
-        label='Mensaje',
-        min_length=10,
-        max_length=1000,
-        widget=forms.Textarea(attrs={
-            'class': 'form-control',
-            'placeholder': 'Cuéntanos cómo podemos ayudarte...',
-            'rows': 5,
-            'required': True,
-            'aria-label': 'Mensaje'
-        })
-    )
 
-class AutomovilForm(forms.ModelForm):
+
+class DetalleVehiculoForm(forms.ModelForm):
     class Meta:
-        model = Automovil
-        fields = ['marca', 'modelo', 'anio', 'precio', 'stock', 'descripcion', 'imagen']
+        model = DetalleVehiculo
+        fields = ['dimensiones', 'peso']
         widgets = {
-            'marca': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Toyota'}),
-            'modelo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Corolla'}),
-            'anio': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 2024'}),
-            'precio': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 25000'}),
-            'stock': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 3', 'min': '0'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Descripción del vehículo...'}),
-            'imagen': forms.FileInput(attrs={'class': 'form-control'}),
+            'dimensiones': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: 4.5m x 1.8m x 1.6m'
+            }),
+            'peso': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'min': '0',
+                'placeholder': 'Peso en kg'
+            }),
+        }
+        labels = {
+            'dimensiones': 'Dimensiones',
+            'peso': 'Peso (kg)',
+        }
+
+class VehiculoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Eliminado campo categoría
+
+    class Meta:
+        model = Vehiculo
+        fields = ['marca', 'modelo', 'anio', 'precio', 'condicion',
+              'color', 'kilometraje', 'num_puertas', 'num_pasajeros',
+              'descripcion', 'imagen', 'disponible']
+        widgets = {
+            'marca': forms.Select(attrs={'class': 'form-select'}),
+            'modelo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Corolla, Mustang, Serie 3'
+            }),
+            'anio': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1950',
+                'max': '2026',
+                'placeholder': '2024'
+            }),
+            'precio': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'min': '0',
+                'placeholder': '0.00'
+            }),
+            'condicion': forms.SelectMultiple(attrs={
+                'class': 'form-select',
+                'size': '3'
+            }),
+            'color': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Negro, Blanco, Rojo'
+            }),
+            'kilometraje': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '0',
+                'placeholder': '0'
+            }),
+            'num_puertas': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '2',
+                'max': '5',
+                'placeholder': '4'
+            }),
+            'num_pasajeros': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '2',
+                'max': '9',
+                'placeholder': '5'
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Describa las características y condiciones del vehículo...'
+            }),
+            'imagen': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/jpeg,image/png,image/webp'
+            }),
+            'disponible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
             'marca': 'Marca',
             'modelo': 'Modelo',
             'anio': 'Año',
             'precio': 'Precio',
-            'stock': 'Stock Disponible',
+            # 'categoria': 'Categoría',
+            'condicion': 'Condición',
+            'etiquetas': 'Etiquetas',
+            'color': 'Color',
+            'kilometraje': 'Kilometraje',
+            'num_puertas': 'Número de Puertas',
+            'num_pasajeros': 'Capacidad de Pasajeros',
             'descripcion': 'Descripción',
-            'imagen': 'Imagen',
+            'imagen': 'Imagen del Vehículo',
+            'disponible': 'Disponible para venta',
         }
-        help_texts = {
-            'stock': 'Cantidad de unidades disponibles. Si es 0, el vehículo se mostrará como no disponible.',
-        }
+
+class ContactoForm(forms.Form):
+    nombre = forms.CharField(
+        max_length=100, 
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Su nombre completo'
+        }),
+        label='Nombre'
+    )
+    correo = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'su@email.com'
+        }),
+        label='Correo Electrónico'
+    )
+    telefono = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '+56 9 1234 5678'
+        }),
+        label='Teléfono (opcional)'
+    )
+    mensaje = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 5,
+            'placeholder': 'Escriba su consulta sobre vehículos disponibles...'
+        }),
+        label='Mensaje'
+    )

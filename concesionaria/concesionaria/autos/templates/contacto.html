@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contacto - Concesionaria{% endblock title %}
+
+{% block main_class %}with-navbar-spacing{% endblock main_class %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'autos/css/contacto.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+<script src="{% static 'autos/js/contacto.js' %}"></script>
+{% endblock extra_js %}
+
+{% block content %}
+<div class="container-fluid py-5 bg-light">
+    <div class="container">
+        <!-- Header Section - Consistent with other pages -->
+        <div class="text-center mb-5">
+            <h1 class="display-3 fw-bold text-primary mb-3">
+                <i class="fas fa-envelope me-3"></i>Contáctanos
+            </h1>
+            <p class="lead text-muted mb-4">
+                ¿Tienes alguna pregunta sobre nuestros vehículos? Estamos aquí para ayudarte.
+            </p>
+            <hr class="w-25 mx-auto mb-4 section-divider">
+            
+            <div class="d-inline-block bg-primary text-white px-4 py-2 rounded-pill">
+                <i class="fas fa-comment-dots me-2"></i>
+                <span class="fw-bold">Formulario de Contacto</span>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <!-- Contact Form Card -->
+                <div class="card shadow-lg border-0 mb-5">
+                    <div class="card-header bg-gradient text-white text-center py-4 contact-gradient-header">
+                        <h3 class="mb-0 fw-bold">
+                            <i class="fas fa-paper-plane me-2"></i>Envíanos tu Mensaje
+                        </h3>
+                    </div>
+                    
+                    <div class="card-body p-5">
+                        <form method="post" action="" class="needs-validation contact-form" novalidate>
+                            {% csrf_token %}
+                            
+                            <!-- Nombre Field -->
+                            <div class="mb-4">
+                                <label for="{{ form.nombre.id_for_label }}" class="form-label fw-bold text-dark">
+                                    <i class="fas fa-user text-primary me-2"></i>{{ form.nombre.label }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    {{ form.nombre }}
+                                </div>
+                                {% if form.nombre.errors %}
+                                    <div class="text-danger mt-2">
+                                        {% for error in form.nombre.errors %}
+                                            <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Correo Field -->
+                            <div class="mb-4">
+                                <label for="{{ form.correo.id_for_label }}" class="form-label fw-bold text-dark">
+                                    <i class="fas fa-envelope text-primary me-2"></i>{{ form.correo.label }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    {{ form.correo }}
+                                </div>
+                                {% if form.correo.errors %}
+                                    <div class="text-danger mt-2">
+                                        {% for error in form.correo.errors %}
+                                            <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Mensaje Field -->
+                            <div class="mb-4">
+                                <label for="{{ form.mensaje.id_for_label }}" class="form-label fw-bold text-dark">
+                                    <i class="fas fa-comment text-primary me-2"></i>{{ form.mensaje.label }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white align-items-start pt-3">
+                                        <i class="fas fa-comment"></i>
+                                    </span>
+                                    {{ form.mensaje }}
+                                </div>
+                                {% if form.mensaje.errors %}
+                                    <div class="text-danger mt-2">
+                                        {% for error in form.mensaje.errors %}
+                                            <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center mt-5">
+                                <button type="submit" class="btn btn-primary btn-lg px-5 py-3 fw-bold contact-submit-btn" 
+                                        aria-label="Enviar mensaje de contacto">
+                                    <i class="fas fa-paper-plane me-2"></i>Enviar Mensaje
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Contact Information -->
+                <div class="row mt-5">
+                    <div class="col-12 text-center mb-4">
+                        <h3 class="fw-bold text-dark">Información de Contacto</h3>
+                        <p class="text-muted">Múltiples formas de comunicarte con nosotros</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm border-0 text-center contact-info-card">
+                            <div class="card-body p-4">
+                                <div class="contact-info-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-phone-alt fa-2x"></i>
+                                </div>
+                                <h5 class="fw-bold text-white">Teléfono</h5>
+                                <p class="text-white mb-2">+56 9 1234 5678</p>
+                                <small class="text-white">Lun - Vie: 9:00 - 19:00</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm border-0 text-center contact-info-card">
+                            <div class="card-body p-4">
+                                <div class="contact-info-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-envelope fa-2x"></i>
+                                </div>
+                                <h5 class="fw-bold text-white">Email</h5>
+                                <p class="text-white mb-2">info@autoventas.cl</p>
+                                <small class="text-white">Te respondemos en 24hrs</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm border-0 text-center contact-info-card">
+                            <div class="card-body p-4">
+                                <div class="contact-info-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                                </div>
+                                <h5 class="fw-bold text-white">Ubicación</h5>
+                                <p class="text-white mb-2">Av. Principal 123</p>
+                                <small class="text-white">Santiago, Chile</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

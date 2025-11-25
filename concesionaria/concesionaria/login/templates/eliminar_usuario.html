@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Eliminar Usuario</h1>
+    <div class="alert alert-danger">
+        ¿Estás seguro de que quieres eliminar al usuario <strong>{{ usuario.username }}</strong>? Esta acción no puede deshacerse.
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Eliminar usuario</button>
+        <a class="btn btn-secondary" href="{% url 'panel:usuarios_list' %}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

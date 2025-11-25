@@ -1,0 +1,21 @@
+.vehicle-details {
+    font-size: 0.95rem;
+}
+
+.btn-lg {
+    transition: all 0.3s ease;
+}
+
+.btn-lg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}

@@ -1,0 +1,354 @@
+/* ==========================================================================
+   🎨 PANEL DE ADMINISTRACIÓN - ESTILOS ESPECÍFICOS
+   Archivo CSS para el template panel_admin.html
+   ========================================================================== */
+
+/* ==========================================================================
+   📱 ESTILOS BASE DEL PANEL
+   ========================================================================== */
+body {
+    background: var(--bg-secondary);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    color: var(--text-primary, #111827);
+    padding-top: 0; /* Override any global padding */
+}
+
+/* ==========================================================================
+   📊 CONTAINER DE ADMINISTRACIÓN
+   ========================================================================== */
+.admin-container {
+    margin-top: 80px; /* Account for fixed navbar height */
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Typography consistency */
+.admin-container h1, .admin-container h2, .admin-container h3, 
+.admin-container h4, .admin-container h5, .admin-container h6 {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+}
+
+.admin-container .hero-title {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.admin-container p, .admin-container span, .admin-container div {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ==========================================================================
+   🎯 HERO HEADER
+   ========================================================================== */
+.hero-admin-header {
+    transition: all 0.3s ease;
+}
+
+.hero-admin-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================================================================
+   📈 CARDS DE ESTADÍSTICAS
+   ========================================================================== */
+.stats-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.stats-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.stats-card .icon-wrapper {
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover .icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ==========================================================================
+   📋 TABLA DE USUARIOS
+   ========================================================================== */
+.user-row {
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.user-row:hover {
+    background: linear-gradient(135deg, var(--blue-50) 0%, #ffffff 100%);
+    border-left-color: var(--primary);
+    transform: translateX(8px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   🧭 BREADCRUMBS
+   ========================================================================== */
+.breadcrumb-dark .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255, 255, 255, 0.7);
+    content: "›";
+    font-weight: bold;
+}
+
+.breadcrumb-dark .breadcrumb-item {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--font-size-sm);
+}
+
+.breadcrumb-dark .breadcrumb-item.active {
+    color: var(--warning);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   📊 ESTILOS DE TABLA
+   ========================================================================== */
+.table th {
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    border: none;
+    background: var(--bg-secondary);
+}
+
+.table-container {
+    transition: all 0.3s ease;
+}
+
+.table-container:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================================================================
+   🔍 BÚSQUEDA
+   ========================================================================== */
+.search-container input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--blue-100);
+    outline: none;
+}
+
+/* ==========================================================================
+   🔘 BOTONES
+   ========================================================================== */
+.btn {
+    border-radius: 8px;
+    font-weight: var(--font-weight-medium);
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   📱 RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 768px) {
+    .hero-admin-header .display-4 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .search-container input {
+        width: 100% !important;
+    }
+    
+    .table-header .d-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* ==========================================================================
+   🎨 ESTILOS ESPECÍFICOS PARA ELEMENTOS CON STYLE INLINE
+   ========================================================================== */
+
+/* Background del container principal */
+.admin-main-bg {
+    background: linear-gradient(135deg, var(--blue-50) 0%, var(--bg-secondary) 100%); 
+    min-height: calc(100vh - 80px); 
+    padding: 2rem 0;
+}
+
+/* Header hero */
+.hero-admin-bg {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+    border-radius: 20px; 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Icono de fondo */
+.hero-bg-icon {
+    font-size: 15rem; 
+    color: white;
+}
+
+/* Título principal */
+.hero-main-title {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+    font-weight: 800; 
+    letter-spacing: -1px;
+}
+
+.hero-title-highlight {
+    color: var(--warning);
+}
+
+/* Botón de crear usuario */
+.btn-create-user {
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background: var(--warning);
+    border: none;
+    color: var(--text-primary);
+}
+
+/* Cards de estadísticas */
+.stats-card-users {
+    background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+    border: 1px solid var(--primary-light);
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.stats-card-active {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%);
+    border: 1px solid var(--success-light);
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.stats-card-admins {
+    background: linear-gradient(135deg, #ffffff 0%, #ffe8f5 100%);
+    border: 1px solid var(--secondary-light);
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.stats-card-activity {
+    background: linear-gradient(135deg, #ffffff 0%, #fff8e1 100%);
+    border: 1px solid var(--warning-light);
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Iconos de las cards */
+.icon-wrapper-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    width: 70px; 
+    height: 70px;
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper-success {
+    background: linear-gradient(135deg, var(--success-color) 0%, var(--success-dark) 100%);
+    width: 70px; 
+    height: 70px;
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper-secondary {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+    width: 70px; 
+    height: 70px;
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper-warning {
+    background: linear-gradient(135deg, var(--warning-color) 0%, var(--warning-dark) 100%);
+    width: 70px; 
+    height: 70px;
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Texto de las estadísticas */
+.stats-text-sm {
+    font-size: var(--font-size-sm);
+}
+
+.stats-text-xl {
+    color: var(--gray-900); 
+    font-size: var(--font-size-2xl);
+}
+
+/* Container de tabla */
+.table-main-container {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+/* Header de tabla */
+.table-header-bg {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, #ffffff 100%); 
+    border-color: var(--border-color);
+}
+
+.table-title {
+    color: var(--text-primary); 
+    font-size: var(--font-size-xl);
+}
+
+.table-title-icon {
+    color: var(--primary);
+}
+
+.table-subtitle {
+    font-size: var(--font-size-sm);
+}
+
+/* Input de búsqueda */
+.search-input {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding-left: 2.5rem;
+    width: 280px;
+    font-size: var(--font-size-sm);
+}
+
+.search-icon {
+    left: 0.75rem; 
+    top: 50%; 
+    transform: translateY(-50%);
+}
+
+/* Badge de contador */
+.user-count-badge {
+    border-radius: 12px; 
+    font-size: var(--font-size-sm);
+}

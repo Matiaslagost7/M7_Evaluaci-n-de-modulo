@@ -64,7 +64,7 @@
                             </div>
                             <div>
                                 <h6 class="text-muted mb-1 fw-medium stats-text-sm">Total Vehículos</h6>
-                                <h3 class="mb-0 fw-bold stats-text-xl">{{ automoviles|length }}</h3>
+                                <h3 class="mb-0 fw-bold stats-text-xl">{{ total_vehiculos }}</h3>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                             </div>
                             <div>
                                 <h6 class="text-muted mb-1 fw-medium stats-text-sm">Disponibles</h6>
-                                <h3 class="mb-0 fw-bold stats-text-xl">{{ automoviles|length }}</h3>
+                                <h3 class="mb-0 fw-bold stats-text-xl">{{ disponibles }}</h3>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                             <div>
                                 <h6 class="text-muted mb-1 fw-medium stats-text-sm">Valor Promedio</h6>
                                 <h3 class="mb-0 fw-bold stats-text-xl">
-                                    {% if automoviles|length > 0 %}$25K{% else %}$0{% endif %}
+                                    {% if total_vehiculos > 0 %}${{ valor_promedio|floatformat:0 }}{% else %}$0{% endif %}
                                 </h3>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                             <div>
                                 <h6 class="text-muted mb-1 fw-medium stats-text-sm">Estado</h6>
                                 <h3 class="mb-0 fw-bold stats-text-xl">
-                                    {% if automoviles|length > 0 %}Activo{% else %}Vacío{% endif %}
+                                    {% if total_vehiculos > 0 %}Activo{% else %}Vacío{% endif %}
                                 </h3>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
         </div>
 
         <!-- Modern Inventory Table -->
-        {% if automoviles %}
+        {% if vehiculos %}
             <div class="row">
                 <div class="col-12">
                     <div class="table-container inventory-table-container">
@@ -150,7 +150,7 @@
                                         <i class="fas fa-search position-absolute text-muted search-icon"></i>
                                     </div>
                                     <div class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 user-count-badge">
-                                        {{ automoviles|length }} vehículo{{ automoviles|length|pluralize }}
+                                        {{ vehiculos|length }} vehículo{{ vehiculos|length|pluralize }}
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for automovil in automoviles %}
+                                        {% for vehiculo in vehiculos %}
                                         <tr class="vehicle-row">
                                             <td class="py-3">
                                                 <div class="d-flex align-items-center">
@@ -190,26 +190,26 @@
                                                         <i class="fas fa-car text-white"></i>
                                                     </div>
                                                     <div>
-                                                        <strong>{{ automovil.marca }}</strong>
+                                                        <strong>{{ vehiculo.marca.nombre }}</strong>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="py-3">
-                                                <span class="fw-medium">{{ automovil.modelo }}</span>
+                                                <span class="fw-medium">{{ vehiculo.modelo }}</span>
                                             </td>
                                             <td class="py-3">
-                                                <span class="badge bg-info bg-opacity-10 text-info border border-info px-3 py-2">{{ automovil.anio }}</span>
+                                                <span class="badge bg-info bg-opacity-10 text-info border border-info px-3 py-2">{{ vehiculo.anio }}</span>
                                             </td>
                                             <td class="py-3">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-dollar-sign me-2 text-success"></i>
-                                                    <span class="fw-bold text-success">${{ automovil.precio|floatformat:0 }}</span>
+                                                    <span class="fw-bold text-success">${{ vehiculo.precio|floatformat:0 }}</span>
                                                 </div>
                                             </td>
                                             <td class="py-3">
                                                 <div class="text-muted vehicle-description">
-                                                    {% if automovil.descripcion %}
-                                                        {{ automovil.descripcion|truncatewords:6 }}
+                                                    {% if vehiculo.descripcion %}
+                                                        {{ vehiculo.descripcion|truncatewords:6 }}
                                                     {% else %}
                                                         <em class="text-muted">Sin descripción disponible</em>
                                                     {% endif %}
@@ -217,13 +217,13 @@
                                             </td>
                                             <td class="py-3 text-center">
                                                 <div class="btn-group" role="group">
-                                                    <a href="{% url 'panel:editar_automovil' automovil.id %}" 
+                                                    <a href="{% url 'panel:editar_automovil' vehiculo.id %}" 
                                                        class="btn btn-sm btn-outline-primary" 
                                                        data-bs-toggle="tooltip" 
                                                        title="Editar vehículo">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <a href="{% url 'panel:eliminar_automovil' automovil.id %}" 
+                                                    <a href="{% url 'panel:eliminar_automovil' vehiculo.id %}" 
                                                        class="btn btn-sm btn-outline-danger"
                                                        data-bs-toggle="tooltip" 
                                                        title="Eliminar vehículo"

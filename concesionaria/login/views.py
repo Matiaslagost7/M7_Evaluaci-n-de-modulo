@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import Group
 from django.contrib import messages
-from autos.models import Automovil
-from autos.forms import AutomovilForm
+from autos.models import Vehiculo
+from autos.forms import VehiculoForm
 from .mixins import verificar_login_y_permisos
 from django.contrib.auth import get_user_model
 from .forms import UserEditForm, AdminUserCreationForm, CustomUserCreationForm
@@ -15,7 +15,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Iniciar sesión después del registro
-            return redirect('public:index')  # Redirigir a una página de éxito.
+            return redirect('index')  # Redirigir a una página de éxito.
     else:
         # En GET, si el usuario que accede tiene permiso para crear usuarios como admin, mostrar el formulario admin
         if request.user.is_authenticated and request.user.has_perm('login.CrearUsuario'):
@@ -31,7 +31,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('public:index')
+            return redirect('index')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.')
     return render(request, 'login.html')
@@ -43,7 +43,7 @@ def logout_view(request):
 # VISTAS ADMINISTRATIVAS - Requieren autenticación y permisos específicos
 def inventario_view(request):
     """
-    Vista administrativa para mostrar el inventario completo de automóviles.
+    Vista administrativa para mostrar el inventario completo de vehículos.
     Permite ver todos los vehículos (disponibles y no disponibles).
     Requiere: autenticación + permiso InventarioView (usando mixin)
     """
@@ -53,42 +53,51 @@ def inventario_view(request):
         return resultado
     
     # PASO 2: Si llegamos aquí, todo está bien, hacer el trabajo normal
-    automoviles = Automovil.objects.all().order_by('-id')
+    vehiculos = Vehiculo.objects.all().select_related('marca').order_by('-fecha_ingreso')
+    total_vehiculos = vehiculos.count()
+    disponibles = vehiculos.filter(disponible=True).count()
+    if total_vehiculos > 0:
+        valor_promedio = sum([v.precio for v in vehiculos]) / total_vehiculos
+    else:
+        valor_promedio = 0
     context = {
-        'automoviles': automoviles,
-        'total_autos': automoviles.count(),
-        'autos_disponibles': automoviles.filter(stock__gt=0).count(),
-        'autos_no_disponibles': automoviles.filter(stock=0).count(),
+        'vehiculos': vehiculos,
+        'total_vehiculos': total_vehiculos,
+        'disponibles': disponibles,
+        'valor_promedio': valor_promedio,
     }
     return render(request, 'inventario.html', context)
 
 def crear_automovil_view(request):
     """
-    Vista administrativa para crear un nuevo automóvil.
-    Requiere: autenticación + permiso add_auto (usando mixin)
+    Vista administrativa para crear un nuevo vehículo usando el formulario público (con detalles).
     """
-    # PASO 1: Verificar login y permisos
     resultado = verificar_login_y_permisos(request, 'login.CrearAutomovilView')
-    if resultado:  # Si hay problema, redirigir
+    if resultado:
         return resultado
-    
-    # PASO 2: Si llegamos aquí, todo está bien, hacer el trabajo normal
+    from autos.forms import DetalleVehiculoForm
     if request.method == 'POST':
-        form = AutomovilForm(request.POST, request.FILES)
-        if form.is_valid():
-            automovil = form.save()
-            messages.success(request, f'Automóvil {automovil.marca} {automovil.modelo} creado exitosamente.')
+        form = VehiculoForm(request.POST, request.FILES)
+        detalles_form = DetalleVehiculoForm(request.POST)
+        if form.is_valid() and detalles_form.is_valid():
+            detalles = detalles_form.save()
+            vehiculo = form.save(commit=False)
+            vehiculo.detalles = detalles
+            vehiculo.save()
+            form.save_m2m()
+            messages.success(request, f'Vehículo {vehiculo.marca.nombre} {vehiculo.modelo} creado exitosamente.')
             return redirect('panel:inventario')
         else:
             messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
-        form = AutomovilForm()
-    
-    return render(request, 'crear_automovil.html', {'form': form})
+        form = VehiculoForm()
+        from autos.forms import DetalleVehiculoForm
+        detalles_form = DetalleVehiculoForm()
+    return render(request, 'crear_producto.html', {'form': form, 'detalles_form': detalles_form})
 
 def detalle_automovil_view(request, automovil_id):
     """
-    Vista administrativa para mostrar detalles completos de un automóvil.
+    Vista administrativa para mostrar detalles completos de un vehículo.
     Incluye información administrativa no visible en la vista pública.
     """
     # PASO 1: Verificar login y permisos
@@ -97,13 +106,13 @@ def detalle_automovil_view(request, automovil_id):
         return resultado
     
     # PASO 2: Si llegamos aqui, todo está bien, hacer el trabajo normal
-    automovil = get_object_or_404(Automovil, id=automovil_id)
-    return render(request, 'detalle_automovil.html', {'automovil': automovil})
+    vehiculo = get_object_or_404(Vehiculo.objects.select_related('marca'), id=automovil_id)
+    return render(request, 'detalle_auto.html', {'vehiculo': vehiculo})
 
 
 def editar_automovil_view(request, automovil_id):
     """
-    Vista administrativa para editar un automóvil existente.
+    Vista administrativa para editar un vehículo existente.
     Requiere: autenticación + permiso change_auto
     """
     # PASO 1: Verificar login y permisos
@@ -112,24 +121,30 @@ def editar_automovil_view(request, automovil_id):
         return resultado
     
     # PASO 2: Si llegamos aqui, todo está bien, hacer el trabajo normal
-    automovil = get_object_or_404(Automovil, id=automovil_id)
-    
+    from autos.forms import DetalleVehiculoForm
+    vehiculo = get_object_or_404(Vehiculo, id=automovil_id)
+    detalles_instance = vehiculo.detalles if hasattr(vehiculo, 'detalles') else None
     if request.method == 'POST':
-        form = AutomovilForm(request.POST, request.FILES, instance=automovil)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Automóvil {automovil.marca} {automovil.modelo} actualizado exitosamente.')
+        form = VehiculoForm(request.POST, request.FILES, instance=vehiculo)
+        detalles_form = DetalleVehiculoForm(request.POST, instance=detalles_instance)
+        if form.is_valid() and detalles_form.is_valid():
+            detalles = detalles_form.save()
+            vehiculo = form.save(commit=False)
+            vehiculo.detalles = detalles
+            vehiculo.save()
+            form.save_m2m()
+            messages.success(request, f'Vehículo {vehiculo.marca.nombre} {vehiculo.modelo} actualizado exitosamente.')
             return redirect('panel:inventario')
         else:
             messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
-        form = AutomovilForm(instance=automovil)
-    
-    return render(request, 'editar_automovil.html', {'form': form, 'automovil': automovil})
+        form = VehiculoForm(instance=vehiculo)
+        detalles_form = DetalleVehiculoForm(instance=detalles_instance)
+    return render(request, 'editar_producto.html', {'form': form, 'detalles_form': detalles_form, 'object': vehiculo})
 
 def eliminar_automovil_view(request, automovil_id):
     """
-    Vista administrativa para eliminar un automóvil existente.
+    Vista administrativa para eliminar un vehículo existente.
     Requiere: autenticación + permiso delete_auto
     """
     # PASO 1: Verificar login y permisos
@@ -138,15 +153,15 @@ def eliminar_automovil_view(request, automovil_id):
         return resultado
     
     # PASO 2: Si llegamos aqui, todo está bien, hacer el trabajo normal
-    automovil = get_object_or_404(Automovil, id=automovil_id)
+    vehiculo = get_object_or_404(Vehiculo, id=automovil_id)
     
     if request.method == 'POST':
-        marca_modelo = f"{automovil.marca} {automovil.modelo}"
-        automovil.delete()
-        messages.success(request, f'Automóvil {marca_modelo} eliminado exitosamente.')
+        nombre_completo = f'{vehiculo.marca.nombre} {vehiculo.modelo}'
+        vehiculo.delete()
+        messages.success(request, f'Vehículo {nombre_completo} eliminado exitosamente.')
         return redirect('panel:inventario')
     
-    return render(request, 'eliminar_automovil.html', {'automovil': automovil})
+    return render(request, 'eliminar_producto.html', {'vehiculo': vehiculo, 'object': vehiculo})
 
 # PANEL ADMINISTRATIVO - Gestión de usuarios
 def panel_admin_view(request):

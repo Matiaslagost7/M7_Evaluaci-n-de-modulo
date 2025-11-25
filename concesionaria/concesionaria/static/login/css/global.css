@@ -1,0 +1,401 @@
+/* ==========================================================================
+   Global Design System - Concesionaria AutoVentas
+   Sistema de diseño unificado para todo el proyecto
+   ========================================================================== */
+
+:root {
+    /* ==========================================
+       Colores Principales (Brand Identity)
+       ========================================== */
+    
+    /* Colores primarios */
+    --primary-color: #1e3c72;
+    --primary-light: #2a5298;
+    --primary-dark: #152a52;
+    --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    
+    /* Colores secundarios */
+    --secondary-color: #ff6b6b;
+    --secondary-light: #ff8787;
+    --secondary-dark: #ff5252;
+    
+    /* Colores de acento */
+    --accent-yellow: #ffd93d;
+    --accent-yellow-light: #ffe066;
+    --accent-yellow-dark: #ffc700;
+    
+    /* Colores neutros */
+    --white: #ffffff;
+    --black: #000000;
+    --gray-50: #f8f9fa;
+    --gray-100: #f1f3f5;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    
+    /* ==========================================
+       Colores Funcionales (Estados)
+       ========================================== */
+    
+    --success-color: #198754;
+    --success-light: #28a745;
+    --success-dark: #157347;
+    
+    --danger-color: #dc3545;
+    --danger-light: #e35d6a;
+    --danger-dark: #bb2d3b;
+    
+    --warning-color: #ffc107;
+    --warning-light: #ffcd39;
+    --warning-dark: #ff9800;
+    
+    --info-color: #0dcaf0;
+    --info-light: #3dd5f3;
+    --info-dark: #0aa2c0;
+    
+    /* ==========================================
+       Colores de Fondo
+       ========================================== */
+    
+    --bg-primary: var(--white);
+    --bg-secondary: var(--gray-50);
+    --bg-tertiary: var(--gray-100);
+    --bg-dark: var(--gray-900);
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    --bg-overlay-light: rgba(0, 0, 0, 0.3);
+    
+    /* Fondos especiales */
+    --bg-hero: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    --bg-admin: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    --bg-auth: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* ==========================================
+       Tipografía
+       ========================================== */
+    
+    /* Familias de fuente */
+    --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family-headings: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-family-monospace: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    
+    /* Tamaños de fuente */
+    --font-size-xs: 0.75rem;      /* 12px */
+    --font-size-sm: 0.875rem;     /* 14px */
+    --font-size-base: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;     /* 18px */
+    --font-size-xl: 1.25rem;      /* 20px */
+    --font-size-2xl: 1.5rem;      /* 24px */
+    --font-size-3xl: 1.875rem;    /* 30px */
+    --font-size-4xl: 2.25rem;     /* 36px */
+    --font-size-5xl: 3rem;        /* 48px */
+    --font-size-6xl: 3.75rem;     /* 60px */
+    
+    /* Pesos de fuente */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    
+    /* Altura de línea */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.6;
+    --line-height-loose: 1.8;
+    
+    /* Espaciado de letras */
+    --letter-spacing-tight: -0.5px;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.5px;
+    --letter-spacing-wider: 1px;
+    
+    /* ==========================================
+       Espaciado y Layout
+       ========================================== */
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;    /* 4px */
+    --spacing-sm: 0.5rem;     /* 8px */
+    --spacing-md: 1rem;       /* 16px */
+    --spacing-lg: 1.5rem;     /* 24px */
+    --spacing-xl: 2rem;       /* 32px */
+    --spacing-2xl: 3rem;      /* 48px */
+    --spacing-3xl: 4rem;      /* 64px */
+    --spacing-4xl: 6rem;      /* 96px */
+    
+    /* Padding de contenedores */
+    --container-padding-sm: 1rem;
+    --container-padding-md: 2rem;
+    --container-padding-lg: 3rem;
+    
+    /* Anchos máximos */
+    --max-width-xs: 320px;
+    --max-width-sm: 480px;
+    --max-width-md: 768px;
+    --max-width-lg: 1024px;
+    --max-width-xl: 1280px;
+    --max-width-2xl: 1536px;
+    --max-width-full: 100%;
+    
+    /* ==========================================
+       Bordes y Radios
+       ========================================== */
+    
+    --border-width-thin: 1px;
+    --border-width-medium: 2px;
+    --border-width-thick: 3px;
+    
+    --border-radius-none: 0;
+    --border-radius-sm: 0.25rem;   /* 4px */
+    --border-radius-md: 0.5rem;    /* 8px */
+    --border-radius-lg: 0.75rem;   /* 12px */
+    --border-radius-xl: 1rem;      /* 16px */
+    --border-radius-2xl: 1.25rem;  /* 20px */
+    --border-radius-full: 9999px;  /* Circular */
+    
+    --border-color-light: var(--gray-200);
+    --border-color-medium: var(--gray-300);
+    --border-color-dark: var(--gray-400);
+    
+    /* ==========================================
+       Sombras (Shadows)
+       ========================================== */
+    
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    
+    /* Sombras de color */
+    --shadow-primary: 0 8px 25px rgba(30, 60, 114, 0.3);
+    --shadow-secondary: 0 8px 25px rgba(255, 107, 107, 0.3);
+    --shadow-success: 0 8px 25px rgba(25, 135, 84, 0.3);
+    --shadow-danger: 0 8px 25px rgba(220, 53, 69, 0.3);
+    
+    /* ==========================================
+       Transiciones y Animaciones
+       ========================================== */
+    
+    /* Duraciones */
+    --transition-fast: 0.15s;
+    --transition-base: 0.3s;
+    --transition-slow: 0.5s;
+    --transition-slower: 0.7s;
+    
+    /* Curvas de animación */
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-smooth: ease;
+    
+    /* Transiciones completas */
+    --transition-all: all var(--transition-base) var(--ease-in-out);
+    --transition-all-fast: all var(--transition-fast) var(--ease-in-out);
+    --transition-all-slow: all var(--transition-slow) var(--ease-in-out);
+    
+    --transition-transform: transform var(--transition-base) var(--ease-in-out);
+    --transition-opacity: opacity var(--transition-base) var(--ease-in-out);
+    --transition-colors: background-color var(--transition-base) var(--ease-in-out), 
+                         border-color var(--transition-base) var(--ease-in-out), 
+                         color var(--transition-base) var(--ease-in-out);
+    
+    /* ==========================================
+       Z-Index (Capas)
+       ========================================== */
+    
+    --z-index-base: 1;
+    --z-index-dropdown: 1000;
+    --z-index-sticky: 1020;
+    --z-index-fixed: 1030;
+    --z-index-modal-backdrop: 1040;
+    --z-index-modal: 1050;
+    --z-index-popover: 1060;
+    --z-index-tooltip: 1070;
+    
+    /* ==========================================
+       Filtros y Efectos
+       ========================================== */
+    
+    --backdrop-blur-sm: blur(4px);
+    --backdrop-blur-md: blur(8px);
+    --backdrop-blur-lg: blur(16px);
+    
+    /* ==========================================
+       Colores de Área Administrativa
+       ========================================== */
+    
+    --admin-primary: #0d6efd;
+    --admin-secondary: #6c757d;
+    --admin-sidebar: #2c3e50;
+    --admin-sidebar-hover: #34495e;
+    --admin-header: #3498db;
+    --admin-content: #ecf0f1;
+    
+    /* ==========================================
+       Opacidades
+       ========================================== */
+    
+    --opacity-0: 0;
+    --opacity-10: 0.1;
+    --opacity-20: 0.2;
+    --opacity-30: 0.3;
+    --opacity-40: 0.4;
+    --opacity-50: 0.5;
+    --opacity-60: 0.6;
+    --opacity-70: 0.7;
+    --opacity-80: 0.8;
+    --opacity-90: 0.9;
+    --opacity-100: 1;
+}
+
+/* ==========================================================================
+   Reset y Base Styles
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    color: var(--gray-900);
+    background-color: var(--bg-primary);
+}
+
+/* ==========================================================================
+   Utilidades Globales
+   ========================================================================== */
+
+/* Contenedores */
+.container-custom {
+    width: 100%;
+    max-width: var(--max-width-xl);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding-sm);
+    padding-right: var(--container-padding-sm);
+}
+
+@media (min-width: 768px) {
+    .container-custom {
+        padding-left: var(--container-padding-md);
+        padding-right: var(--container-padding-md);
+    }
+}
+
+/* Animaciones globales */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Clases de utilidad para animaciones */
+.animate-fadeIn {
+    animation: fadeIn var(--transition-base) var(--ease-in-out);
+}
+
+.animate-slideInUp {
+    animation: slideInUp 0.6s var(--ease-out);
+}
+
+.animate-slideInDown {
+    animation: slideInDown 0.6s var(--ease-out);
+}
+
+.animate-float {
+    animation: float 3s var(--ease-in-out) infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s var(--ease-in-out) infinite;
+}
+
+/* Transiciones suaves */
+.transition-all {
+    transition: var(--transition-all);
+}
+
+.transition-fast {
+    transition: var(--transition-all-fast);
+}
+
+.transition-slow {
+    transition: var(--transition-all-slow);
+}
+
+/* Hover effects globales */
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.hover-grow:hover {
+    transform: scale(1.05);
+}
+
+.hover-glow:hover {
+    box-shadow: var(--shadow-primary);
+}

@@ -1,73 +1,124 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import Automovil
-from .forms import ContactoForm
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Vehiculo, Marca
+from .forms import VehiculoForm, ContactoForm, DetalleVehiculoForm
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
-# Vista para la página de inicio
 def index(request):
-    """
-    Vista para la página de inicio.
-    """
-    return render(request, 'index.html')
+    """Página de inicio con vehículos destacados"""
+    vehiculos_destacados = Vehiculo.objects.filter(disponible=True).order_by('-fecha_ingreso')[:6]
+    return render(request, 'index.html', {'vehiculos_destacados': vehiculos_destacados})
 
-# Vista para el formulario de contacto
+def catalogo(request):
+    """Catálogo de vehículos con filtros de búsqueda"""
+    vehiculos = Vehiculo.objects.filter(disponible=True).select_related('marca').prefetch_related('condicion')
+    marcas = Marca.objects.all()
+    
+    # Filtrado por marca
+    marca_id = request.GET.get('marca')
+    if marca_id:
+        vehiculos = vehiculos.filter(marca_id=marca_id)
+    
+    # Filtrado por año
+    anio_min = request.GET.get('anio_min')
+    anio_max = request.GET.get('anio_max')
+    if anio_min:
+        vehiculos = vehiculos.filter(anio__gte=anio_min)
+    if anio_max:
+        vehiculos = vehiculos.filter(anio__lte=anio_max)
+    
+    # Filtrado por precio
+    precio_min = request.GET.get('precio_min')
+    precio_max = request.GET.get('precio_max')
+    if precio_min:
+        vehiculos = vehiculos.filter(precio__gte=precio_min)
+    if precio_max:
+        vehiculos = vehiculos.filter(precio__lte=precio_max)
+
+    # Búsqueda por texto (marca, modelo, descripción)
+    query = request.GET.get('q')
+    if query:
+        vehiculos = vehiculos.filter(
+            Q(modelo__icontains=query) | 
+            Q(descripcion__icontains=query) |
+            Q(marca__nombre__icontains=query)
+        )
+
+    return render(request, 'catalogo.html', {
+        'vehiculos': vehiculos,
+        'marcas': marcas,
+        'query': query,
+        'marca_seleccionada': int(marca_id) if marca_id else None,
+        'anio_min': anio_min,
+        'anio_max': anio_max,
+        'precio_min': precio_min,
+        'precio_max': precio_max,
+    })
+
+def detalle_vehiculo(request, vehiculo_id):
+    """Detalle de un vehículo específico"""
+    vehiculo = get_object_or_404(
+        Vehiculo.objects.select_related('marca').prefetch_related('condicion'),
+        id=vehiculo_id
+    )
+    return render(request, 'detalle_auto.html', {'vehiculo': vehiculo})
+
 def contacto(request):
+    """Formulario de contacto"""
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
-            # Procesar el formulario
             nombre = form.cleaned_data['nombre']
-            # En una implementación real, aquí enviarías un correo electrónico
-            # o guardarías el mensaje en la base de datos usando:
-            # correo = form.cleaned_data['correo']
-            # mensaje = form.cleaned_data['mensaje']
             return render(request, 'contacto_exito.html', {'nombre': nombre})
     else:
         form = ContactoForm()
     return render(request, 'contacto.html', {'form': form})
 
-# Vista para mostrar el catálogo de automóviles
-def catalogo(request):
-    # Mostrar todos los automóviles en el catálogo público
-    automoviles = Automovil.objects.all()
-    if not automoviles:
-        mensaje = "No hay automóviles disponibles en el catálogo."
-        return render(request, 'catalogo.html', {'mensaje': mensaje})
-    
-    return render(request, 'catalogo.html', {'automoviles': automoviles})
+# Vistas CRUD protegidas con login
 
-# Vista pública para mostrar el detalle de un automóvil
-def detalle_automovil(request, automovil_id):
-    """
-    Vista pública para mostrar los detalles de un automóvil específico.
-    Esta es la vista pública del catálogo, sin requerir autenticación.
-    """
-    try:
-        # Mostrar cualquier automóvil, independientemente de su disponibilidad
-        automovil = Automovil.objects.get(id=automovil_id)
-        return render(request, 'detalle_auto.html', {'auto': automovil})
-    except Automovil.DoesNotExist:
-        # Si el automóvil no existe, redirigir al catálogo
-        messages.warning(request, 'El automóvil solicitado no existe.')
-        return redirect('public:catalogo')
+@login_required
+def crear_vehiculo(request):
+    """Crear un nuevo vehículo (con detalles)"""
+    if request.method == 'POST':
+        form = VehiculoForm(request.POST, request.FILES)
+        detalles_form = DetalleVehiculoForm(request.POST)
+        if form.is_valid() and detalles_form.is_valid():
+            detalles = detalles_form.save()
+            vehiculo = form.save(commit=False)
+            vehiculo.detalles = detalles
+            vehiculo.save()
+            form.save_m2m()
+            return redirect('catalogo')
+    else:
+        form = VehiculoForm()
+        detalles_form = DetalleVehiculoForm()
+    return render(request, 'crear_producto.html', {'form': form, 'detalles_form': detalles_form})
 
-# Vista para buscar automóviles en el catálogo público
-def buscar_automovil(request):
-    """
-    Vista pública para buscar automóviles en el catálogo.
-    """
-    query = request.GET.get('q', '')
-    resultados = []
-    
-    if query:
-        # Buscar en marca y modelo por separado y combinar resultados
-        # Solo mostrar autos con stock > 0
-        resultados_marca = Automovil.objects.filter(marca__icontains=query, stock__gt=0)
-        resultados_modelo = Automovil.objects.filter(modelo__icontains=query, stock__gt=0)
-        # Combinar y eliminar duplicados usando distinct()
-        resultados = (resultados_marca | resultados_modelo).distinct()
-    
-    return render(request, 'buscar_automovil.html', {
-        'resultados': resultados, 
-        'query': query
-    })
+@login_required
+def editar_vehiculo(request, vehiculo_id):
+    """Editar un vehículo existente (con detalles)"""
+    vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
+    detalles_instance = vehiculo.detalles if vehiculo.detalles else None
+    if request.method == 'POST':
+        form = VehiculoForm(request.POST, request.FILES, instance=vehiculo)
+        detalles_form = DetalleVehiculoForm(request.POST, instance=detalles_instance)
+        if form.is_valid() and detalles_form.is_valid():
+            detalles = detalles_form.save()
+            vehiculo = form.save(commit=False)
+            vehiculo.detalles = detalles
+            vehiculo.save()
+            form.save_m2m()
+            return redirect('catalogo')
+    else:
+        form = VehiculoForm(instance=vehiculo)
+        detalles_form = DetalleVehiculoForm(instance=detalles_instance)
+    return render(request, 'editar_producto.html', {'form': form, 'detalles_form': detalles_form, 'object': vehiculo})
+
+@login_required
+def eliminar_vehiculo(request, vehiculo_id):
+    """Eliminar un vehículo"""
+    vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
+    if request.method == 'POST':
+        vehiculo.delete()
+        return redirect('catalogo')
+    return render(request, 'eliminar_producto.html', {'vehiculo': vehiculo, 'object': vehiculo})

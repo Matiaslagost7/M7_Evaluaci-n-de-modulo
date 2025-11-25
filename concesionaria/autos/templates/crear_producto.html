@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Crear Producto{% endblock %}
+
+{% block main_class %}with-navbar-spacing{% endblock main_class %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'login/css/admin-forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-warning text-dark text-center">
+                    <h2>Crear Producto</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <h5 class="mt-4">Detalles del Vehículo</h5>
+                        {{ detalles_form.as_p }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">Crear Producto</button>
+                            <a href="{% url 'catalogo' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

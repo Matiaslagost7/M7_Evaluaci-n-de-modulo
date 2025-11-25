@@ -24,7 +24,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-navbar" id="mainNavbar">
         <div class="container-fluid px-4">
             <!-- Brand with Animation -->
-            <a class="navbar-brand brand-modern d-flex align-items-center" href="{% url 'public:index' %}">
+            <a class="navbar-brand brand-modern d-flex align-items-center" href="{% url 'index' %}">
                 <div class="brand-icon-container me-3">
                     <div class="brand-icon">
                         <i class="fas fa-car brand-car-icon"></i>
@@ -52,7 +52,7 @@
                 <!-- Main Navigation -->
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link modern-nav-link" href="{% url 'public:index' %}" data-page="inicio">
+                        <a class="nav-link modern-nav-link" href="{% url 'index' %}" data-page="inicio">
                             <span class="nav-icon">
                                 <i class="fas fa-home"></i>
                             </span>
@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link modern-nav-link" href="{% url 'public:catalogo' %}" data-page="catalogo">
+                        <a class="nav-link modern-nav-link" href="{% url 'catalogo' %}" data-page="catalogo">
                             <span class="nav-icon">
                                 <i class="fas fa-car-side"></i>
                             </span>
@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link modern-nav-link" href="{% url 'public:contacto' %}" data-page="contacto">
+                        <a class="nav-link modern-nav-link" href="{% url 'contacto' %}" data-page="contacto">
                             <span class="nav-icon">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -233,6 +233,10 @@
             </div>
         </div>
 
+    <iframe src="tercero.html" sandbox></iframe>
+
+
+
         <!-- Main Footer Content -->
         <div class="footer-main">
             <div class="container">
@@ -283,9 +287,9 @@
                         <div class="footer-section">
                             <h5 class="footer-section-title">Navegación</h5>
                             <ul class="footer-links">
-                                <li><a href="{% url 'public:index' %}" class="footer-link">Inicio</a></li>
-                                <li><a href="{% url 'public:catalogo' %}" class="footer-link">Catálogo</a></li>
-                                <li><a href="{% url 'public:contacto' %}" class="footer-link">Contacto</a></li>
+                                <li><a href="{% url 'index' %}" class="footer-link">Inicio</a></li>
+                                <li><a href="{% url 'catalogo' %}" class="footer-link">Catálogo</a></li>
+                                <li><a href="{% url 'contacto' %}" class="footer-link">Contacto</a></li>
                                 <li><a href="#" class="footer-link">Sobre Nosotros</a></li>
                                 {% if user.is_authenticated %}
                                 <li><a href="{% url 'panel:panel_admin' %}" class="footer-link">Panel Admin</a></li>

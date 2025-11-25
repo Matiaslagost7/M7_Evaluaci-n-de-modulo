@@ -1,0 +1,220 @@
+﻿/* Base Styles - Navbar & Footer */
+
+main {
+    padding-top: 0;
+    min-height: 100vh;
+}
+
+main.with-navbar-spacing {
+    padding-top: 100px;
+}
+
+.modern-navbar {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 0 !important;
+    transition: all 0.3s ease;
+    z-index: 1050 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.modern-navbar.scrolled {
+    background: rgba(30, 60, 114, 0.95) !important;
+    padding: 0.5rem 0 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.modern-navbar .brand-modern {
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.modern-navbar .brand-modern:hover {
+    transform: translateY(-2px);
+    color: #ffffff !important;
+}
+
+.brand-icon-container {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.brand-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+    transition: all 0.3s ease;
+}
+
+.brand-icon:hover {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+.brand-car-icon {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+.brand-tagline {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.custom-toggler {
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.custom-toggler:hover,
+.custom-toggler:focus {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.custom-toggler-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 24px;
+}
+
+.custom-toggler-icon span {
+    display: block;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600;
+    padding: 0.75rem 1.25rem !important;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link.active {
+    background: rgba(249, 115, 22, 0.2);
+    color: #ffffff !important;
+}
+
+.btn-nav-primary,
+.btn-nav-secondary {
+    padding: 0.625rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    font-size: 0.95rem;
+}
+
+.btn-nav-primary {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+}
+
+.btn-nav-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+    color: #ffffff;
+}
+
+.btn-nav-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-nav-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
+.user-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* Footer styles moved to footer.css for better organization */
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: rgba(30, 60, 114, 0.98);
+        margin-top: 1rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+}

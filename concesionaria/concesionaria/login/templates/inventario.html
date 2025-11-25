@@ -1,0 +1,336 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Inventario de Automóviles - Panel de Administración{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'autos/css/global.css' %}">
+<link rel="stylesheet" href="{% static 'login/css/inventario.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="inventory-container inventory-main-bg">
+    
+    <div class="container-fluid">
+        <!-- Hero Header Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="hero-inventory-header position-relative overflow-hidden hero-inventory-bg">
+                    
+                    <!-- Background Pattern -->
+                    <div class="position-absolute top-0 end-0 opacity-10">
+                        <i class="fas fa-warehouse hero-warehouse-icon"></i>
+                    </div>
+                    
+                    <div class="position-relative p-5">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8">
+                                <div class="hero-content text-white">
+                                    <h1 class="display-4 fw-bold mb-3 hero-inventory-title">
+                                        Gestión de <span class="hero-inventory-highlight">Inventario</span>
+                                    </h1>
+                                    <p class="lead mb-4 opacity-90">
+                                        Administra y supervisa todos los vehículos de tu concesionaria desde un panel centralizado.
+                                    </p>
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb breadcrumb-dark mb-0">
+                                            <li class="breadcrumb-item d-flex align-items-center">
+                                                <i class="fas fa-tachometer-alt me-2"></i>Panel Admin
+                                            </li>
+                                            <li class="breadcrumb-item active fw-medium">Inventario de Vehículos</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-end">
+                                <a class="btn btn-warning btn-lg px-4 py-3 fw-semibold btn-create-user" 
+                                   href="{% url 'panel:crear_automovil' %}">
+                                    <i class="fas fa-plus me-2"></i>Agregar Vehículo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Dashboard Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card position-relative overflow-hidden h-100 stats-card-vehicles">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper me-3 icon-wrapper-primary">
+                                <i class="fas fa-car text-white fa-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1 fw-medium stats-text-sm">Total Vehículos</h6>
+                                <h3 class="mb-0 fw-bold stats-text-xl">{{ automoviles|length }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card position-relative overflow-hidden h-100 stats-card-available">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper me-3 icon-wrapper-success">
+                                <i class="fas fa-check-circle text-white fa-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1 fw-medium stats-text-sm">Disponibles</h6>
+                                <h3 class="mb-0 fw-bold stats-text-xl">{{ automoviles|length }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card position-relative overflow-hidden h-100 stats-card-average">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper me-3 icon-wrapper-secondary">
+                                <i class="fas fa-dollar-sign text-white fa-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1 fw-medium stats-text-sm">Valor Promedio</h6>
+                                <h3 class="mb-0 fw-bold stats-text-xl">
+                                    {% if automoviles|length > 0 %}$25K{% else %}$0{% endif %}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card position-relative overflow-hidden h-100 stats-card-status">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper me-3 icon-wrapper-warning">
+                                <i class="fas fa-warehouse text-white fa-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1 fw-medium stats-text-sm">Estado</h6>
+                                <h3 class="mb-0 fw-bold stats-text-xl">
+                                    {% if automoviles|length > 0 %}Activo{% else %}Vacío{% endif %}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modern Inventory Table -->
+        {% if automoviles %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-container inventory-table-container">
+                        
+                        <div class="table-header p-4 border-bottom inventory-table-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1 fw-bold d-flex align-items-center inventory-table-title">
+                                        <i class="fas fa-warehouse me-3 inventory-table-icon"></i>
+                                        Inventario de Vehículos
+                                    </h5>
+                                    <p class="text-muted mb-0 table-subtitle">
+                                        Gestiona y supervisa todos los automóviles disponibles
+                                    </p>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="search-container position-relative">
+                                        <input type="text" 
+                                               class="form-control ps-4 inventory-search-input" 
+                                               placeholder="Buscar vehículo..." 
+                                               id="searchVehicle">
+                                        <i class="fas fa-search position-absolute text-muted search-icon"></i>
+                                    </div>
+                                    <div class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 user-count-badge">
+                                        {{ automoviles|length }} vehículo{{ automoviles|length|pluralize }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-borderless align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="border-0 py-3">
+                                                <i class="fas fa-tag me-2 text-muted"></i>Marca
+                                            </th>
+                                            <th class="border-0 py-3">
+                                                <i class="fas fa-car me-2 text-muted"></i>Modelo
+                                            </th>
+                                            <th class="border-0 py-3">
+                                                <i class="fas fa-calendar me-2 text-muted"></i>Año
+                                            </th>
+                                            <th class="border-0 py-3">
+                                                <i class="fas fa-dollar-sign me-2 text-muted"></i>Precio
+                                            </th>
+                                            <th class="border-0 py-3">
+                                                <i class="fas fa-info-circle me-2 text-muted"></i>Descripción
+                                            </th>
+                                            <th class="border-0 py-3 text-center">
+                                                <i class="fas fa-cogs me-2 text-muted"></i>Acciones
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for automovil in automoviles %}
+                                        <tr class="vehicle-row">
+                                            <td class="py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-primary rounded-circle p-2 me-3 vehicle-icon-bg">
+                                                        <i class="fas fa-car text-white"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong>{{ automovil.marca }}</strong>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="fw-medium">{{ automovil.modelo }}</span>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="badge bg-info bg-opacity-10 text-info border border-info px-3 py-2">{{ automovil.anio }}</span>
+                                            </td>
+                                            <td class="py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-dollar-sign me-2 text-success"></i>
+                                                    <span class="fw-bold text-success">${{ automovil.precio|floatformat:0 }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="py-3">
+                                                <div class="text-muted vehicle-description">
+                                                    {% if automovil.descripcion %}
+                                                        {{ automovil.descripcion|truncatewords:6 }}
+                                                    {% else %}
+                                                        <em class="text-muted">Sin descripción disponible</em>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                            <td class="py-3 text-center">
+                                                <div class="btn-group" role="group">
+                                                    <a href="{% url 'panel:editar_automovil' automovil.id %}" 
+                                                       class="btn btn-sm btn-outline-primary" 
+                                                       data-bs-toggle="tooltip" 
+                                                       title="Editar vehículo">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{% url 'panel:eliminar_automovil' automovil.id %}" 
+                                                       class="btn btn-sm btn-outline-danger"
+                                                       data-bs-toggle="tooltip" 
+                                                       title="Eliminar vehículo"
+                                                       onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="6" class="text-center py-5">
+                                                <div class="text-muted">
+                                                    <i class="fas fa-car fa-3x mb-3 opacity-50"></i>
+                                                    <h5>No hay vehículos en el inventario</h5>
+                                                    <p>Comienza agregando el primer vehículo a tu inventario.</p>
+                                                    <a href="{% url 'panel:crear_automovil' %}" class="btn btn-primary">
+                                                        <i class="fas fa-plus me-2"></i>Agregar Primer Vehículo
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="d-lg-none">
+                <div class="row g-4">
+                    {% for automovil in automoviles %}
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm rounded-4 mobile-card">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary rounded-circle p-2 me-3">
+                                                <i class="fas fa-car text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-1 fw-bold text-dark">{{ automovil.marca }} {{ automovil.modelo }}</h5>
+                                                <small class="text-muted">Año {{ automovil.anio }}</small>
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-success px-3 py-2 rounded-pill fs-6">
+                                            ${{ automovil.precio|floatformat:0 }}
+                                        </span>
+                                    </div>
+
+                                    {% if automovil.descripcion %}
+                                        <p class="text-muted mb-3">
+                                            <i class="fas fa-info-circle me-2 text-primary"></i>
+                                            {{ automovil.descripcion|truncatewords:15 }}
+                                        </p>
+                                    {% endif %}
+
+                                    <div class="inventory-actions">
+                                        <a href="{% url 'panel:editar_automovil' automovil.id %}" 
+                                           class="inventory-btn inventory-btn-edit flex-fill">
+                                            <i class="fas fa-edit"></i>Editar
+                                        </a>
+                                        <a href="{% url 'panel:eliminar_automovil' automovil.id %}" 
+                                           class="inventory-btn inventory-btn-delete flex-fill"
+                                           onclick="return confirm('¿Estás seguro de que deseas eliminar este automóvil?')">
+                                            <i class="fas fa-trash"></i>Eliminar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="empty-state-container empty-state-card text-center py-5">
+                        <div class="p-5">
+                            <div class="empty-icon mb-4">
+                                <i class="fas fa-warehouse display-1 text-muted opacity-50"></i>
+                            </div>
+                            <h3 class="fw-bold mb-3 empty-state-title">Inventario Vacío</h3>
+                            <p class="text-muted mb-4 lead">
+                                Tu inventario está esperando el primer vehículo. 
+                                Comienza construyendo tu catálogo automotriz.
+                            </p>
+                            <a href="{% url 'panel:crear_automovil' %}" 
+                               class="btn btn-primary btn-lg px-4 py-3 empty-state-btn">
+                                <i class="fas fa-plus me-2"></i>Agregar Primer Vehículo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        
+    </div> <!-- Close container-fluid -->
+</div> <!-- Close inventory-container -->
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'login/js/inventory.js' %}"></script>
+{% endblock extra_js %}

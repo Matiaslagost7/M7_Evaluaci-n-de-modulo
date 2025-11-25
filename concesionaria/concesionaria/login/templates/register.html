@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'login/css/auth.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5 card shadow">
+                <div class="card-body p-3 m-3">
+                    <h5 class="card-title text-center mb-3 font-weight-bold text-uppercase">Registrate</h5>
+                    <form class="form-signin text-left mb-3 w-100 mx-auto" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase mt-3 w-100" type="submit">
+                            Registrarse
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

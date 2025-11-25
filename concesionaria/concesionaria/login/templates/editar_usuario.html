@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Editar Usuario: {{ usuario.username }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      {% if field.name == 'groups' %}
+        {% if perms.login.EditarUsuario %}
+          <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+              <div class="form-text">{{ field.help_text }}</div>
+            {% endif %}
+            {% for err in field.errors %}
+              <div class="text-danger">{{ err }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <div class="form-text">{{ field.help_text }}</div>
+          {% endif %}
+          {% for err in field.errors %}
+            <div class="text-danger">{{ err }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <button class="btn btn-primary" type="submit">Guardar</button>
+  <a class="btn btn-secondary" href="{% url 'panel:panel_admin' %}">Cancelar</a>
+  </form>
+
+</div>
+{% endblock %}

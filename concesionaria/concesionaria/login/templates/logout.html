@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title">Sesión Cerrada</h3>
+                </div>
+                <div class="card-body">
+                    <p>Has cerrado sesión correctamente.</p>
+                    <a href="{% url 'panel:login' %}" class="btn btn-primary">Iniciar Sesión de Nuevo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

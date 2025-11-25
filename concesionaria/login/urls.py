@@ -1,5 +1,7 @@
+
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 # Namespace para las URLs administrativas
 app_name = 'panel'
@@ -7,8 +9,11 @@ app_name = 'panel'
 urlpatterns = [
     # AUTENTICACIÓN - Login, Register, Logout
     path('login/', views.login_view, name='login'),
-    path('register/', views.register_view, name='register'), 
+    path('register/', views.register_view, name='register'),
     path('logout/', views.logout_view, name='logout'),
+    # Alternativa: vistas de autenticación de Django
+    path('auth/login/', auth_views.LoginView.as_view(template_name='login/login.html'), name='auth_login'),
+    path('auth/logout/', auth_views.LogoutView.as_view(), name='auth_logout'),
     
     # GESTIÓN DE INVENTARIO - Requiere permisos específicos
     path('inventario/', views.inventario_view, name='inventario'),

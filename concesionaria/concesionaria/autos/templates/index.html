@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio - AutoVentas Premium{% endblock title %}
+
+{% block main_class %}{% endblock main_class %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'autos/css/index.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title display-3 fw-bold mb-4">
+                            Bienvenido a <span class="text-primary">AutoVentas</span>
+                        </h1>
+                        <p class="hero-subtitle lead mb-4">
+                            Tu concesionaria premium de vehículos de calidad superior.
+                        </p>
+                        <p class="hero-description mb-5">
+                            Descubre nuestra exclusiva colección de automóviles cuidadosamente seleccionados. 
+                            Encuentra el vehículo perfecto que se adapte a tu estilo de vida y presupuesto.
+                        </p>
+                        <div class="hero-buttons d-flex flex-wrap gap-3">
+                            <a href="{% url 'public:catalogo' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-car-side me-2"></i>Explorar Catálogo
+                            </a>
+                            <a href="{% url 'public:contacto' %}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-headset me-2"></i>Hablar con Asesor
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image text-center">
+                        <div class="hero-car-icon">
+                            <i class="fas fa-car fa-10x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title display-5 fw-bold mb-3">¿Por qué elegir AutoVentas?</h2>
+                    <p class="section-subtitle">Ofrecemos la mejor experiencia en compra de vehículos con servicios premium</p>
+                    <div class="d-flex justify-content-center mt-4">
+                        <div class="bg-primary rounded-pill px-4 py-2">
+                            <i class="fas fa-star text-white me-2"></i>
+                            <span class="text-white fw-bold">Calidad Garantizada</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- Feature 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card h-100 p-4 bg-white rounded-3 shadow-sm">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </div>
+                        <h4 class="feature-title">Navegación Intuitiva</h4>
+                        <p class="feature-description">
+                            Plataforma diseñada para una experiencia de usuario excepcional con acceso rápido a toda la información.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-desktop text-primary me-3"></i>
+                                <span>Interfaz moderna y responsive</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-search text-primary me-3"></i>
+                                <span>Búsqueda avanzada de vehículos</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-3"></i>
+                                <span>Información detallada y actualizada</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card h-100 p-4 bg-white rounded-3 shadow-sm">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4 class="feature-title">Servicios Premium</h4>
+                        <p class="feature-description">
+                            Servicio integral que abarca desde la selección hasta el mantenimiento de tu vehículo ideal.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-certificate text-primary me-3"></i>
+                                <span>Vehículos certificados de calidad</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-wrench text-primary me-3"></i>
+                                <span>Servicio técnico especializado</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-certificate text-primary me-3"></i>
+                                <span>Garantías extendidas disponibles</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card h-100 p-4 bg-white rounded-3 shadow-sm">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 class="feature-title">Atención Personalizada</h4>
+                        <p class="feature-description">
+                            Equipo de asesores expertos disponibles para ayudarte a encontrar el vehículo perfecto.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-comments text-primary me-3"></i>
+                                <span>Asesoría especializada gratuita</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-credit-card text-primary me-3"></i>
+                                <span>Financiamiento personalizado</span>
+                            </li>
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-business-time text-primary me-3"></i>
+                                <span>Horarios flexibles de atención</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-10 mx-auto text-center">
+                    <div class="cta-content">
+                        <!-- Icono destacado -->
+                        <div class="cta-icon-wrapper mb-4">
+                            <div class="cta-icon">
+                                <i class="fas fa-road"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="cta-title display-5 fw-bold mb-4">
+                            ¿Listo para encontrar tu <span class="text-warning">vehículo ideal</span>?
+                        </h3>
+                        
+                        <p class="cta-description lead mb-4">
+                            Explora nuestro catálogo completo de vehículos premium y descubre las mejores ofertas. 
+                            Nuestro equipo de expertos te ayudará a encontrar el auto perfecto que se adapte a tu estilo de vida.
+                        </p>
+                        
+                        <!-- Stats destacadas -->
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-4">
+                                <div class="cta-stat">
+                                    <i class="fas fa-car text-warning mb-2"></i>
+                                    <h5 class="fw-bold mb-1">100+</h5>
+                                    <small class="text-light opacity-75">Vehículos Disponibles</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cta-stat">
+                                    <i class="fas fa-users text-warning mb-2"></i>
+                                    <h5 class="fw-bold mb-1">500+</h5>
+                                    <small class="text-light opacity-75">Clientes Satisfechos</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cta-stat">
+                                    <i class="fas fa-award text-warning mb-2"></i>
+                                    <h5 class="fw-bold mb-1">15+</h5>
+                                    <small class="text-light opacity-75">Años de Experiencia</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción -->
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="{% url 'public:catalogo' %}" class="btn btn-warning btn-lg cta-btn-primary">
+                                <i class="fas fa-search me-2"></i>Explorar Catálogo
+                            </a>
+                            <a href="{% url 'public:contacto' %}" class="btn btn-outline-light btn-lg cta-btn-secondary">
+                                <i class="fas fa-phone me-2"></i>Contactar Ahora
+                            </a>
+                        </div>
+                        
+                        <!-- Información adicional -->
+                        <div class="cta-extra-info mt-4">
+                            <small class="text-light opacity-75">
+                                <i class="fas fa-certificate me-2"></i>
+                                Garantía de satisfacción • Financiamiento disponible • Asesoría gratuita
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

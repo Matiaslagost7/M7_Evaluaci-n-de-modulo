@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Producto{% endblock %}
+
+{% block main_class %}with-navbar-spacing{% endblock main_class %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'login/css/eliminar_automovil.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg text-center">
+                <div class="card-header bg-danger text-white">
+                    <h2>Confirmar Eliminación</h2>
+                </div>
+                <div class="card-body">
+                    <p>¿Estás seguro de que deseas eliminar el producto "<strong>{{ producto.nombre }}</strong>"?</p>
+                    <p class="text-danger">Esta acción no se puede deshacer.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            <a href="{% url 'panel:inventario' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

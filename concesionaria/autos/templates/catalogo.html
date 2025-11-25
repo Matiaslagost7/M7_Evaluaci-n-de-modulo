@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Catálogo de Automóviles - Concesionaria{% endblock title %}
+{% block title %}Catálogo de Vehículos - Concesionaria{% endblock title %}
 
 {% block main_class %}with-navbar-spacing{% endblock main_class %}
 
@@ -14,33 +14,49 @@
         <!-- Header Section -->
         <div class="text-center mb-5">
             <h1 class="display-3 fw-bold text-primary mb-3">
-                <i class="fas fa-car me-3"></i>Nuestro Catálogo
+                <i class="fas fa-box-open me-3"></i>Nuestro Catálogo
             </h1>
             <p class="lead text-muted mb-4">
                 Descubre nuestra exclusiva colección de vehículos de alta calidad
             </p>
             <hr class="w-25 mx-auto mb-4 section-divider">
             
-            <!-- Vehicle Counter -->
+            <!-- Product Counter -->
             <div class="d-inline-block bg-primary text-white px-4 py-2 rounded-pill">
-                <i class="fas fa-car-side me-2"></i>
-                <span class="fw-bold">{{ automoviles|length }} Vehículo{{ automoviles|length|pluralize }}</span>
-                <span>Disponible{{ automoviles|length|pluralize }}</span>
+                <i class="fas fa-car me-2"></i>
+                <span class="fw-bold">{{ vehiculos|length }} Vehículo{{ vehiculos|length|pluralize }}</span>
+                <span>Disponible{{ vehiculos|length|pluralize }}</span>
             </div>
         </div>
 
-        <!-- Vehicles Grid -->
-        {% if automoviles %}
+        <!-- Search and Filter Form -->
+        <div class="row mb-4">
+            <div class="col-md-8 offset-md-2">
+                <form method="get" action="{% url 'catalogo' %}" class="d-flex flex-column flex-md-row gap-2">
+                    <input type="text" name="q" class="form-control" placeholder="Buscar por modelo, marca o descripción..." value="{{ query|default:'' }}">
+                    <select name="marca" class="form-select">
+                        <option value="">Todas las marcas</option>
+                        {% for marca in marcas %}
+                            <option value="{{ marca.id }}" {% if marca.id == marca_seleccionada %}selected{% endif %}>{{ marca.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        {% if vehiculos %}
             <div class="row g-4 justify-content-center">
-                {% for auto in automoviles %}
+                {% for vehiculo in vehiculos %}
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card vehicle-card h-100 shadow-lg border-0 vehicle-card-custom">
+                        <div class="card product-card h-100 shadow-lg border-0 product-card-custom">
                             <!-- Image Container -->
                             <div class="position-relative overflow-hidden">
-                                {% if auto.imagen %}
-                                    <img src="{{ auto.imagen.url }}" 
-                                         class="card-img-top vehicle-image" 
-                                         alt="{{ auto.marca }} {{ auto.modelo }}">
+                                {% if vehiculo.imagen %}
+                                    <img src="{{ vehiculo.imagen.url }}" 
+                                         class="card-img-top product-image" 
+                                         alt="{{ vehiculo.modelo }}">
                                 {% else %}
                                     <div class="card-img-top bg-gradient d-flex align-items-center justify-content-center image-placeholder">
                                         <div class="text-center text-white">
@@ -49,122 +65,51 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                
-                                <!-- Availability Badge -->
-                                {% if auto.stock > 0 %}
-                                    <div class="position-absolute top-0 end-0 m-3">
-                                        <span class="badge bg-success px-3 py-2 rounded-pill">
-                                            <i class="fas fa-check-circle me-1"></i>Disponible ({{ auto.stock }} unidad{{ auto.stock|pluralize:"es" }})
-                                        </span>
-                                    </div>
-                                {% else %}
-                                    <div class="position-absolute top-0 end-0 m-3">
-                                        <span class="badge bg-danger text-white px-3 py-2 rounded-pill">
-                                            <i class="fas fa-times-circle me-1"></i>Sin Stock
-                                        </span>
-                                    </div>
-                                {% endif %}
-
                                 <!-- Price Badge -->
                                 <div class="position-absolute bottom-0 start-0 m-3">
                                     <span class="badge bg-primary px-3 py-2 rounded-pill fs-6">
-                                        <i class="fas fa-dollar-sign me-1"></i>${{ auto.precio|floatformat:0 }}
+                                        <i class="fas fa-dollar-sign me-1"></i>${{ vehiculo.precio|floatformat:2 }}
                                     </span>
                                 </div>
                             </div>
-
                             <!-- Card Body -->
                             <div class="card-body p-4">
                                 <!-- Vehicle Title -->
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="bg-primary rounded-circle p-2 me-3">
-                                        <i class="fas fa-car text-white"></i>
+                                        <i class="fas fa-tag text-white"></i>
                                     </div>
                                     <h4 class="card-title mb-0 fw-bold text-dark">
-                                        {{ auto.marca }} {{ auto.modelo }}
+                                        {{ vehiculo.marca.nombre }} {{ vehiculo.modelo }}
                                     </h4>
                                 </div>
-
-                                <!-- Vehicle Details -->
-                                <div class="row g-2 mb-3">
-                                    <div class="col-6">
-                                        <div class="d-flex align-items-center text-muted">
-                                            <i class="fas fa-calendar-alt me-2 text-primary"></i>
-                                            <small class="fw-bold">{{ auto.anio }}</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex align-items-center text-muted">
-                                            <i class="fas fa-tag me-2 text-primary"></i>
-                                            <small class="fw-bold">${{ auto.precio|floatformat:0 }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Description -->
-                                {% if auto.descripcion %}
-                                    <p class="card-text text-muted mb-4 description-text">
-                                        <i class="fas fa-info-circle me-2 text-primary"></i>
-                                        {{ auto.descripcion|truncatewords:15 }}
-                                    </p>
-                                {% else %}
-                                    <p class="card-text text-muted mb-4 fst-italic">
-                                        <i class="fas fa-info-circle me-2 text-primary"></i>
-                                        Información del vehículo disponible en los detalles.
-                                    </p>
+                                <!-- Categoría eliminada -->
                                 {% endif %}
-
-                                <!-- Action Button -->
-                                <div class="d-grid">
-                                    <a href="{% url 'public:detalle_auto' auto.id %}" 
-                                       class="btn btn-primary btn-lg rounded-pill fw-bold btn-details">
-                                        <i class="fas fa-eye me-2"></i>Ver Detalles
-                                        <i class="fas fa-arrow-right ms-2"></i>
-                                    </a>
+                                <!-- Etiquetas -->
+                                <!-- Sección de atributos eliminada -->
+                                    {% endif %}
+                                <!-- Vehicle Details -->
+                                <p class="card-text text-muted">{{ vehiculo.descripcion|truncatewords:20 }}</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-secondary">Año: {{ vehiculo.anio }}</span>
                                 </div>
+                                <!-- Action Button -->
+                                <a href="{% url 'detalle_vehiculo' vehiculo.id %}" class="btn btn-outline-primary w-100">
+                                    Ver Detalles <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <!-- Empty State -->
             <div class="text-center py-5">
-                <div class="card border-0 shadow-lg mx-auto no-vehicles-card">
-                    <div class="card-body p-5">
-                        <div class="mb-4">
-                            <i class="fas fa-car-crash fa-4x text-muted opacity-50"></i>
-                        </div>
-                        <h3 class="fw-bold text-dark mb-3">No hay vehículos disponibles</h3>
-                        <p class="text-muted mb-4">
-                            Actualmente no tenemos vehículos en nuestro catálogo. 
-                            Vuelve pronto para descubrir nuestras nuevas ofertas.
-                        </p>
-                        <a href="{% url 'public:index' %}" class="btn btn-primary btn-lg rounded-pill px-4">
-                            <i class="fas fa-home me-2"></i>Volver al Inicio
-                        </a>
-                    </div>
-                </div>
+                <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                <h3 class="text-muted">No se encontraron vehículos</h3>
+                <p>Intenta con otra búsqueda o revisa las marcas.</p>
+                <a href="{% url 'catalogo' %}" class="btn btn-primary mt-3">Ver todos los vehículos</a>
             </div>
         {% endif %}
-
-        <!-- Call to Action -->
-        <div class="text-center mt-5 pt-4">
-            <div class="card border-0 shadow-sm cta-card">
-                <div class="card-body p-4">
-                    <h4 class="text-white fw-bold mb-3">
-                        <i class="fas fa-handshake me-2"></i>¿Necesitas ayuda para elegir?
-                    </h4>
-                    <p class="text-white opacity-75 mb-4">
-                        Nuestros expertos están listos para ayudarte a encontrar el vehículo perfecto
-                    </p>
-                    <a href="{% url 'public:contacto' %}" class="btn btn-light btn-lg rounded-pill px-4 fw-bold">
-                        <i class="fas fa-phone me-2"></i>Contáctanos Ahora
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-
 {% endblock content %}

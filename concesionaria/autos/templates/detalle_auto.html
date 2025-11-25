@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ auto.marca }} {{ auto.modelo }} - Detalles Premium{% endblock %}
+{% block title %}{{ vehiculo.nombre|default:vehiculo.modelo }} - Detalles del Vehículo{% endblock %}
 
 {% block main_class %}with-navbar-spacing{% endblock main_class %}
 
@@ -13,52 +13,38 @@
 <div class="container-fluid py-5 detalle-container">
     <div class="container">
         
-        <!-- Header Section - Consistent with other pages -->
+        <!-- Header Section -->
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold text-primary mb-3">
-                <i class="fas fa-car-side me-3"></i>{{ auto.marca }} {{ auto.modelo }}
+                <i class="fas fa-box-open me-3"></i>{{ vehiculo.nombre|default:vehiculo.modelo }}
             </h1>
             <p class="lead text-muted mb-4">
-                Detalles completos del vehículo seleccionado
+                Detalles completos del producto seleccionado
             </p>
             <hr class="w-25 mx-auto mb-4 section-divider">
             
-            <!-- Vehicle Status Badge -->
-            {% if auto.stock > 0 %}
-                <div class="d-inline-block bg-success text-white px-4 py-2 rounded-pill me-3">
-                    <i class="fas fa-check-circle me-2"></i>
-                    <span class="fw-bold">Disponible</span>
-                    <span>({{ auto.stock }} en stock)</span>
-                </div>
-            {% else %}
-                <div class="d-inline-block bg-danger text-white px-4 py-2 rounded-pill me-3">
-                    <i class="fas fa-times-circle me-2"></i>
-                    <span class="fw-bold">Sin Stock</span>
-                </div>
-            {% endif %}
-            
             <!-- Back to Catalog Button -->
-            <a href="{% url 'public:catalogo' %}" class="d-inline-block bg-primary text-white px-4 py-2 rounded-pill text-decoration-none">
+            <a href="{% url 'catalogo' %}" class="d-inline-block bg-primary text-white px-4 py-2 rounded-pill text-decoration-none">
                 <i class="fas fa-arrow-left me-2"></i>
                 <span class="fw-bold">Volver al Catálogo</span>
             </a>
         </div>
 
-        <!-- Vehicle Main Card -->
+        <!-- Product Main Card -->
         <div class="row g-4 justify-content-center">
             <div class="col-lg-8 col-md-10">
-                <div class="card vehicle-detail-card h-100 shadow-lg border-0">
+                <div class="card product-detail-card h-100 shadow-lg border-0">
                     <!-- Image Container -->
                     <div class="position-relative overflow-hidden">
-                        {% if auto.imagen %}
-                            <img src="{{ auto.imagen.url }}" 
-                                 class="card-img-top vehicle-detail-image" 
-                                 alt="{{ auto.marca }} {{ auto.modelo }}">
+                        {% if vehiculo.imagen %}
+                            <img src="{{ vehiculo.imagen.url }}" 
+                                 class="card-img-top product-detail-image" 
+                                 alt="{{ vehiculo.nombre|default:vehiculo.modelo }}">
                         {% else %}
                             <div class="card-img-top bg-gradient d-flex align-items-center justify-content-center image-placeholder">
                                 <div class="text-center text-white">
-                                    <i class="fas fa-car fa-5x mb-3 opacity-50"></i>
-                                    <h4 class="mb-0 fw-bold">{{ auto.marca }} {{ auto.modelo }}</h4>
+                                    <i class="fas fa-box fa-5x mb-3 opacity-50"></i>
+                                    <h4 class="mb-0 fw-bold">{{ vehiculo.nombre|default:vehiculo.modelo }}</h4>
                                     <p class="mb-0">Imagen no disponible</p>
                                 </div>
                             </div>
@@ -67,164 +53,54 @@
                         <!-- Price Badge -->
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-primary px-4 py-3 rounded-pill fs-5">
-                                <i class="fas fa-dollar-sign me-1"></i>${{ auto.precio|floatformat:0 }}
+                                <i class="fas fa-dollar-sign me-1"></i>${{ vehiculo.precio|floatformat:2 }}
                             </span>
                         </div>
                         
-                        <!-- Year Badge -->
-                        <div class="position-absolute top-0 start-0 m-3">
-                            <span class="badge bg-secondary px-3 py-2 rounded-pill">
-                                <i class="fas fa-calendar-alt me-1"></i>{{ auto.anio }}
-                            </span>
-                        </div>
+                        <!-- Category Badge eliminado -->
                     </div>
 
                     <!-- Card Body -->
                     <div class="card-body p-4">
-                        <!-- Vehicle Title -->
+                        <!-- Product Title -->
                         <div class="d-flex align-items-center mb-4">
                             <div class="bg-primary rounded-circle p-3 me-3">
-                                <i class="fas fa-car text-white fa-lg"></i>
+                                <i class="fas fa-tag text-white fa-lg"></i>
                             </div>
                             <div>
                                 <h2 class="card-title mb-1 fw-bold text-dark">
-                                    {{ auto.marca }} {{ auto.modelo }}
+                                    {{ vehiculo.nombre|default:vehiculo.modelo }}
                                 </h2>
-                                <p class="text-muted mb-0">Modelo {{ auto.anio }}</p>
+                                <!-- Categoría eliminada -->
                             </div>
                         </div>
 
-                        <!-- Vehicle Details Grid -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-6">
-                                <div class="d-flex align-items-center text-muted">
-                                    <i class="fas fa-industry me-2 text-primary"></i>
-                                    <div>
-                                        <small class="d-block">Marca</small>
-                                        <strong class="text-dark">{{ auto.marca }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center text-muted">
-                                    <i class="fas fa-car-side me-2 text-primary"></i>
-                                    <div>
-                                        <small class="d-block">Modelo</small>
-                                        <strong class="text-dark">{{ auto.modelo }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center text-muted">
-                                    <i class="fas fa-calendar-alt me-2 text-primary"></i>
-                                    <div>
-                                        <small class="d-block">Año</small>
-                                        <strong class="text-dark">{{ auto.anio }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center text-muted">
-                                    <i class="fas fa-clock me-2 text-primary"></i>
-                                    <div>
-                                        <small class="d-block">Registrado</small>
-                                        <strong class="text-dark">{{ auto.fecha_registro|date:"d/m/Y" }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Description -->
-                        {% if auto.descripcion %}
+                        <!-- Product Description -->
                         <div class="mb-4">
-                            <h5 class="fw-bold text-dark mb-2">
-                                <i class="fas fa-file-text me-2 text-primary"></i>Descripción
-                            </h5>
-                            <p class="text-muted mb-0">{{ auto.descripcion }}</p>
+                            <h5 class="fw-bold">Descripción</h5>
+                            <p class="text-muted">{{ vehiculo.descripcion }}</p>
                         </div>
+
+                        <!-- Product Details (One-to-One) -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold">Detalles Adicionales</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Dimensiones:</strong> {{ vehiculo.detalles.dimensiones|default:"No especificado" }}</li>
+                                <li class="list-group-item"><strong>Peso:</strong> {{ vehiculo.detalles.peso|default:"No especificado" }} kg</li>
+                            </ul>
+                        </div>
+
+                        <!-- Tags (Many-to-Many) -->
+                        <!-- Sección de atributos eliminada -->
+
+                        <!-- Admin Actions -->
+                        {% if user.is_authenticated %}
+                        {# Acciones de administrador eliminadas de la vista de detalle #}
                         {% endif %}
-
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-2">
-                            <a href="{% url 'public:contacto' %}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-phone me-2"></i>Contactar por este Vehículo
-                            </a>
-                            <div class="text-center mt-2">
-                                <small class="text-muted">
-                                    <i class="fas fa-certificate me-1 text-success"></i>
-                                    Garantía incluida • Financiamiento disponible
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
-        <!-- Additional Services Section -->
-        <div class="row g-4 mt-5">
-            <div class="col-md-4">
-                <div class="card service-card h-100 shadow-sm border-0">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary rounded-circle p-3 mb-3 mx-auto service-icon-lg">
-                            <i class="fas fa-certificate text-white fa-2x"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Garantía Incluida</h5>
-                        <p class="card-text text-muted">Todos nuestros vehículos incluyen garantía de calidad y servicio post-venta profesional.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card service-card h-100 shadow-sm border-0">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary rounded-circle p-3 mb-3 mx-auto service-icon-lg">
-                            <i class="fas fa-credit-card text-white fa-2x"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Financiamiento</h5>
-                        <p class="card-text text-muted">Opciones de financiamiento flexibles y tasas preferenciales para tu comodidad.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card service-card h-100 shadow-sm border-0">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary rounded-circle p-3 mb-3 mx-auto service-icon-lg">
-                            <i class="fas fa-tools text-white fa-2x"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Servicio Técnico</h5>
-                        <p class="card-text text-muted">Mantenimiento especializado con repuestos originales y técnicos certificados.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- CTA Section -->
-        <div class="row mt-5">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="card cta-card border-0 shadow-lg">
-                    <div class="card-body text-center p-5 cta-gradient-card">
-                        <h3 class="card-title fw-bold mb-3">
-                            ¿Interesado en este {{ auto.marca }} {{ auto.modelo }}?
-                        </h3>
-                        <p class="card-text lead mb-4 opacity-90">
-                            Nuestro equipo de asesores expertos está listo para ayudarte con toda la información que necesitas.
-                        </p>
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <a href="{% url 'public:contacto' %}" class="btn btn-warning btn-lg px-4">
-                                <i class="fas fa-phone me-2"></i>Contactar Asesor
-                            </a>
-                            <a href="{% url 'public:catalogo' %}" class="btn btn-outline-light btn-lg px-4">
-                                <i class="fas fa-car me-2"></i>Ver Más Vehículos
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

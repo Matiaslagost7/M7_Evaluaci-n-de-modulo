@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buscar Automóvil{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'autos/css/catalogo.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-4">
+                <i class="fas fa-search me-2"></i>Resultados de Búsqueda
+            </h1>
+            
+            <!-- Formulario de búsqueda -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="GET" action="{% url 'public:buscar_automovil' %}" class="row g-3">
+                        <div class="col-md-10">
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="q" 
+                                   placeholder="Buscar por marca o modelo..." 
+                                   value="{{ query }}"
+                                   required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Buscar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Mensaje de búsqueda -->
+            {% if query %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Mostrando resultados para: <strong>"{{ query }}"</strong>
+                    ({{ resultados|length }} resultado{{ resultados|length|pluralize }})
+                </div>
+            {% endif %}
+
+            <!-- Resultados -->
+            {% if resultados %}
+                <div class="row">
+                    {% for automovil in resultados %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm hover-card">
+                            {% if automovil.imagen %}
+                                <img src="{{ automovil.imagen.url }}" 
+                                     class="card-img-top img-card-search" 
+                                     alt="{{ automovil.marca }} {{ automovil.modelo }}">
+                            {% else %}
+                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center img-placeholder-search">
+                                    <i class="fas fa-car fa-4x text-white"></i>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="card-body">
+                                <h5 class="card-title">{{ automovil.marca }} {{ automovil.modelo }}</h5>
+                                <p class="card-text">
+                                    <strong>Año:</strong> {{ automovil.anio }}<br>
+                                    <strong>Precio:</strong> ${{ automovil.precio|floatformat:2 }}
+                                </p>
+                                {% if automovil.descripcion %}
+                                <p class="card-text text-muted small">
+                                    {{ automovil.descripcion|truncatewords:15 }}
+                                </p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="card-footer bg-transparent">
+                                <a href="{% url 'public:detalle_auto' automovil.id %}" 
+                                   class="btn btn-primary w-100">
+                                    <i class="fas fa-eye me-2"></i>Ver Detalles
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% elif query %}
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    No se encontraron automóviles que coincidan con tu búsqueda.
+                    <br><br>
+                    <a href="{% url 'public:catalogo' %}" class="btn btn-primary">
+                        <i class="fas fa-list me-2"></i>Ver Todo el Catálogo
+                    </a>
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Ingresa un término de búsqueda para encontrar automóviles.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
